@@ -1,4 +1,4 @@
-public class SingletonChocolateBoiler {
+public class SingletonChocolateBoiler extends Thread{
     private boolean empty;
     private boolean boiled;
 
@@ -9,10 +9,12 @@ public class SingletonChocolateBoiler {
         boiled = false;
     }
 
-    public static SingletonChocolateBoiler getInstance() {
+    synchronized public static SingletonChocolateBoiler getInstance() {
         if (instance == null){
             instance = new SingletonChocolateBoiler();
+            System.out.println("SingletonChocolateBoiler instance was created");
         }
+        System.out.println("SingletonChocolateBoiler instance already created");
         return instance;
     }
 
@@ -43,5 +45,18 @@ public class SingletonChocolateBoiler {
 
     public boolean isBoiled(){
         return boiled;
+    }
+
+    public void run() {
+        SingletonChocolateBoiler.getInstance();
+    }
+    public static void main(String [] args)
+    {
+        int N = 8;
+        SingletonChocolateBoiler threads[] = new SingletonChocolateBoiler[N];
+        for (int i=0; i<N; ++i){
+            threads[i] = new SingletonChocolateBoiler();
+            threads[i].start();
+        }
     }
 }
